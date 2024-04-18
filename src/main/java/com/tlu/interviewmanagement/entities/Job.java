@@ -33,6 +33,7 @@ public class Job  implements Serializable {
     @Column(length = 2000)
     private String qualification;
     @Nationalized
+    @Column(length = 2000)
     private String benefit;
     @Enumerated(EnumType.STRING)
     private EStatus status;
@@ -56,3 +57,4 @@ public class Job  implements Serializable {
     @ToString.Exclude
     private List<Candidate> candidates;
 }
+

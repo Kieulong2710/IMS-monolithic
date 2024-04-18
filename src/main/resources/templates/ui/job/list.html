@@ -20,7 +20,7 @@
                     <li class="breadcrumb-item" aria-current="page">List job</li>
                 </ol>
             </nav>
-            <section class="mb-2">
+            <section class="mb-4">
                 <div class="user-search px-1">
                     <form th:action="@{/admin/job}" class="form-search">
                         <div class="mx-lg-4">
@@ -37,7 +37,7 @@
                             </button>
                         </div>
                         <select name="status" class="input-search  my-3 my-lg-0">
-                            <option selected value="">-- status --</option>
+                            <option selected value="">-- Status --</option>
                             <option th:selected="${searchResponse.status != null && searchResponse.status.name() == 'OPEN'}"
                                     value="OPEN">Open</option>
                             <option th:selected="${searchResponse.status != null && searchResponse.status.name() == 'CLOSE'}"
@@ -79,8 +79,8 @@
                             <td><span th:utext="${j.title}"></span></td>
                             <td>
                                 <span th:each="s,i : ${j.skillJobs}"
-                                th:if="${i.count == 1}"
-                                th:utext="${s.skill.name}"></span>
+                                      th:if="${i.count == 1}"
+                                      th:utext="${s.skill.name}"></span>
                                 <span th:each="s,i : ${j.skillJobs}"
                                       th:if="${i.count > 1}"
                                       th:utext="${' , ' + s.skill.name}"></span>

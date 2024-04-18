@@ -78,8 +78,8 @@
                                     required>
                                 <option disabled selected value=""></option>
                                 <option th:each="d: ${departments}"
-                                th:value="${d.id}"
-                                th:utext="${d.name}">
+                                        th:value="${d.id}"
+                                        th:utext="${d.name}">
                                 </option>
                             </select>
                             <label class="form-lb form-lb-job" for="department">Department</label>
@@ -105,7 +105,7 @@
                             <div class="form-input form-control d-flex align-items-center"
                                  style="background-color: lightgray;pointer-events: none"
                                  id="interviewer">
-                                 N/A
+                                N/A
                             </div>
                             <label class="form-lb form-lb-skills" > Interviewer</label>
                             <ion-icon class="form-icon" name="barbell-outline"></ion-icon>
@@ -139,9 +139,9 @@
                                     required>
                                 <option disabled selected value=""></option>
                                 <option th:each="u :${users}"
-                                th:utext="${u.fullName}"
-                                th:value="${u.id}"
-                                th:if="${u.account.role.name() == 'ROLE_MANAGER'}"></option>
+                                        th:utext="${u.fullName}"
+                                        th:value="${u.id}"
+                                        th:if="${u.account.role.name() == 'ROLE_MANAGER'}"></option>
                             </select>
                             <label class="form-lb form-lb-job" for="manager">Manager</label>
                             <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"

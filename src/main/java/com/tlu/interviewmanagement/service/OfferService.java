@@ -3,6 +3,7 @@ package com.tlu.interviewmanagement.service;
 import com.tlu.interviewmanagement.entities.Offer;
 import com.tlu.interviewmanagement.web.request.OfferRequest;
 import com.tlu.interviewmanagement.web.request.SearchRequest;
+import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
@@ -13,7 +14,7 @@ public interface OfferService {
     void deleteOffer(Long id);
     List<Offer> findAllOfferByDate(LocalDate fromDate, LocalDate toDate);
 
-    Offer saveOffer(OfferRequest offerRequest);
+    Offer saveOffer(OfferRequest offerRequest) throws MessagingException;
 
     Offer findOfferById(Long id);
 

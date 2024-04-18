@@ -82,7 +82,7 @@
 }
 
 .invalid-feedback{
- margin-left: 180px;
+    margin-left: 180px;
 }
 @media (max-width: 991px) {
     .user-form {

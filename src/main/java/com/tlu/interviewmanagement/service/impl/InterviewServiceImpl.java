@@ -7,9 +7,12 @@ import com.tlu.interviewmanagement.service.EmailService;
 import com.tlu.interviewmanagement.service.InterviewService;
 import com.tlu.interviewmanagement.web.request.InterviewRequest;
 import com.tlu.interviewmanagement.web.request.SearchRequest;
+import groovy.util.logging.Slf4j;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,17 +35,22 @@ public class InterviewServiceImpl implements InterviewService {
     private final UserRepository userRepository;
     private final JobRepository jobRepository;
     private final OfferRepository offerRepository;
+    Logger logger = LoggerFactory.getLogger(InterviewServiceImpl.class);
 
     @Override
     @Transactional
     public InterviewSchedule saveInterviewSchedule(InterviewRequest interviewRequest) throws MessagingException {
+        logger.info(":::::::Start to save interview from interviewServiceImpl:::::::");
         InterviewSchedule interviewSchedule = interviewScheduleRepository
                 .save(getInterviewSchedule(new InterviewSchedule(), interviewRequest));
+        logger.info(":::::::Start to find job from interviewServiceImpl:::::::");
         Job job = jobRepository.findById(interviewRequest.getJobId()).orElseThrow();
         job.setInterviewed(job.getInterviewed() + interviewSchedule.getResultInterviews().size());
-        List<String> emails = interviewSchedule.getResultInterviews().stream()
-                .map(x -> x.getCandidate().getEmail()).toList();
-        emailService.sendMailNotificationInterviewSchedule(List.of("longkh2710@gmail.com"),"THƯ MỜI PHỎNG VẤN",interviewSchedule);
+//        List<String> emails = interviewSchedule.getResultInterviews().stream()
+//                .map(x -> x.getCandidate().getEmail()).toList();
+        logger.info(":::::::Start to send mail from interviewServiceImpl:::::::");
+        emailService.sendMailNotificationInterviewSchedule(List.of("longkh27102001@gmail.com"),"THƯ MỜI PHỎNG VẤN",interviewSchedule);
+        logger.info(":::::::End to save interview from interviewServiceImpl:::::::");
         return interviewSchedule;
     }
 
@@ -75,7 +83,7 @@ public class InterviewServiceImpl implements InterviewService {
         InterviewSchedule interviewSchedule = findInterviewScheduleById(interviewRequest.getId());
         interviewerScheduleRepository.deleteBySchedule_Id(interviewSchedule.getId());
         InterviewSchedule interviewSchedule1 = interviewScheduleRepository.save(checkUpdate(interviewSchedule, interviewRequest));
-        emailService.sendMailChangeInterviewSchedule(List.of("longkh2710@gmail.com"),
+        emailService.sendMailChangeInterviewSchedule(List.of("longkh27102001@gmail.com"),
                 "THƯ THAY ĐỔI LỊCH PHỎNG VẤN",
                 interviewSchedule);
         return  interviewSchedule1;
@@ -115,7 +123,7 @@ public class InterviewServiceImpl implements InterviewService {
         candidates.forEach(x -> x.setStatus(EStatus.OPEN));
         candidateRepository.saveAll(candidates);
         emailService.sendMailCancelInterviewSchedule(
-                List.of("longkh2710@gmail.com"),
+                List.of("longkh27102001@gmail.com"),
                 "THƯ HỦY LỊCH PHỎNG VẤN",
                 interviewSchedule);
 //        emailService.sendMailNotificationInterviewSchedule(
@@ -148,6 +156,9 @@ public class InterviewServiceImpl implements InterviewService {
         List<ResultInterview> resultInterviews = new ArrayList<>();
         List<Candidate> candidates = candidateRepository.findAllByJob_IdOrOrderByIdAsc(
                 interviewRequest.getJobId(), interviewRequest.getCandidateNumber());
+        if (candidates.size() > interviewRequest.getCandidateNumber()) {
+            candidates = candidates.subList(0, Math.toIntExact(interviewRequest.getCandidateNumber()));
+        }
         for (Candidate c : candidates) {
             c.setStatus(EStatus.WAITING_FOR_INTERVIEW);
             ResultInterview resultInterview = ResultInterview

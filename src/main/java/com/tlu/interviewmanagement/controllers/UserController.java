@@ -13,6 +13,8 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,12 +34,13 @@ public class UserController {
     private final UserService userService;
     private final SearchUtil searchUtil;
     private final AccountService accountService;
-
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
     @GetMapping({"", "/"})
     public String user(Model model,
                        @ModelAttribute SearchRequest searchRequest) {
         Page<Users> users = userService.findAllUser(searchUtil.getSearchRequest(searchRequest));
         SearchRequest searchResponse = searchUtil.setPageMax(users.getTotalPages(), searchRequest);
+        logger.info("FindAllUser:::::::::::::::" + users);
         model.addAttribute("users", users);
         model.addAttribute("searchResponse", searchResponse);
         return "ui/user/list";
@@ -53,7 +56,7 @@ public class UserController {
 
     @PostMapping("/create")
     public String postUserCreate(@ModelAttribute UserRequest userRequest,
-                                 RedirectAttributes ra) throws MessagingException {
+                                 RedirectAttributes ra, Model model) throws MessagingException {
         if (accountService.existedAccountByEmail(userRequest.getEmail())) {
             ra.addFlashAttribute("user", userRequest);
             ra.addFlashAttribute("message", "Email da ton tai");
@@ -63,6 +66,8 @@ public class UserController {
             userService.saveUser(userRequest);
             ra.addFlashAttribute("alert", "success");
         }
+        List<Department> departments = departmentService.findAllDepartment();
+        model.addAttribute("departments", departments);
         return "redirect:/admin/user/create";
     }
     @GetMapping("/{id}")
@@ -86,7 +91,7 @@ public class UserController {
                                Model model) {
         if (Objects.equals(id, userRequest.getId())) {
             model.addAttribute("alert","success");
-           userService.updateUser(userRequest);
+            userService.updateUser(userRequest);
         }else {
             model.addAttribute("alert", "fail");
         }

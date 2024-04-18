@@ -7,6 +7,7 @@ import com.tlu.interviewmanagement.web.request.OfferRequest;
 import com.tlu.interviewmanagement.web.request.SearchRequest;
 import com.tlu.interviewmanagement.web.response.CandidateResp;
 import com.tlu.interviewmanagement.web.response.OfferExport;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -48,7 +49,7 @@ public class OfferController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("resultInterview", resultService.findByResultPass());
-        model.addAttribute("offerRequest", new OfferRequest());
+//        model.addAttribute("offerRequest", new OfferRequest());
         model.addAttribute("departments", departmentService.findAllDepartment());
         model.addAttribute("users", userService.findUserByRoleRecruiterAndManager());
         return "ui/offer/add";
@@ -56,7 +57,7 @@ public class OfferController {
 
     @PostMapping("/create")
     public String createOffer(@ModelAttribute OfferRequest offerRequest,
-                              RedirectAttributes ra) {
+                              RedirectAttributes ra) throws MessagingException {
         Offer offer = offerService.saveOffer(offerRequest);
         if (Objects.isNull(offer)) {
             ra.addFlashAttribute("offerRequest", offerRequest);
@@ -123,6 +124,13 @@ public class OfferController {
         model.addAttribute("offer", offer);
         model.addAttribute("interviewSchedules", interviewerSchedules);
         return "ui/offer/approve";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id, RedirectAttributes ra) {
+        offerService.deleteOffer(id);
+        ra.addFlashAttribute("alart","Delete success");
+        return "redirect:/admin/offer/";
     }
 
     @GetMapping("/approve/accepted/{id}")

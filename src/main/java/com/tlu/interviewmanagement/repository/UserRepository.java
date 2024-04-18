@@ -21,13 +21,15 @@ public interface UserRepository extends JpaRepository<Users, Long> {
             "WHERE concat( is.schedule,'') not like %?1%")
     List<Interviewer> findInterviewers(LocalDate date);
     @Query("SELECT u FROM Users u " +
-            "WHERE concat(u.fullName, u.account.email, u.department.name, u.phoneNumber) LIKE %?1% ")
+            "WHERE concat(u.fullName, u.account.email, u.department.name, u.phoneNumber) LIKE %?1% " +
+            "order by u.id desc ")
     Page<Users> findAll(String param,Pageable pageable);
     @Query("SELECT u FROM Users u " +
             "WHERE concat(u.fullName, u.account.email, u.department.name, u.phoneNumber) LIKE %?1% " +
-            "AND u.account.role = ?2")
+            "AND u.account.role = ?2 " +
+            "order by u.id desc ")
     Page<Users> findAll(String param, ERole role,Pageable pageable);
-    
+
     Optional<Users> findByAccount_Email(String name);
     List<Users> findAllByIdIn(List<Long> ids);
 }

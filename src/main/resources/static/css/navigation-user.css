@@ -108,7 +108,7 @@ body {
     position: relative;
 }
 .navbar-header .navbar-items ul .dropdown span {
-   font-size: 18px;
+    font-size: 18px;
 }
 .navbar-header .navbar-items ul .dropdown .dropdown-content {
     top: 150%;

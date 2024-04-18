@@ -69,7 +69,7 @@
                                     <div class="dropdown-content">
                                         <div></div>
                                         <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_RECRUITER','ROLE_INTERVIEW','ROLE_MANAGER')"
-                                                th:href="@{/admin/job/}">
+                                           th:href="@{/admin/job/}">
                                             <span>Admin page</span>
                                         </a>
                                         <a th:href="@{/logout}">
@@ -108,16 +108,16 @@
                             <ion-icon name="chevron-forward-outline"></ion-icon>
                         </li>
                         <li sec:authorize="!authenticated">
-                                <a th:href="@{/login}">
-                                    Đăng Nhập
-                                </a>
-                                <ion-icon name="log-in-outline"></ion-icon>
+                            <a th:href="@{/login}">
+                                Đăng Nhập
+                            </a>
+                            <ion-icon name="log-in-outline"></ion-icon>
                         </li>
                         <li id="lo" sec:authorize="authenticated">
-                                <a th:href="@{/logout}">
-                                    Đăng xuất
-                                </a>
-                                <ion-icon name="log-out-outline"></ion-icon>
+                            <a th:href="@{/logout}">
+                                Đăng xuất
+                            </a>
+                            <ion-icon name="log-out-outline"></ion-icon>
                         </li>
                     </ul>
                 </div>
@@ -139,7 +139,7 @@
             <i class="fa-brands fa-dev " style="color:#dd3f24;"></i>
             IMS
         </h1>
-        <p> Nghiêm Xuân Yêm, Đại Kim, Hoàng Mai, Hà Nội</p>
+        <p>Nghiêm Xuân Yêm, Đại Kim, Hoàng Mai, Hà Nội</p>
         <p>Tel: 0965620903 - a35983@thanglong.edu.vn</p>
     </div>
 </div>

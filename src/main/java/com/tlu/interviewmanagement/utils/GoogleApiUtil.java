@@ -47,7 +47,7 @@ public class GoogleApiUtil {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8080).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8081).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("longkh2710@gmail.com");
 
     }
@@ -62,7 +62,8 @@ public class GoogleApiUtil {
         File fileMetadata = new File();
         fileMetadata.setName(cv.getOriginalFilename());
         java.io.File newFile = convert(cv);
-        fileMetadata.setParents(Collections.singletonList("1-1o2KnbKGTsCXVzzqRo1J7He3sLV24TW"));
+//        fileMetadata.setParents(Collections.singletonList("1-1o2KnbKGTsCXVzzqRo1J7He3sLV24TW"));
+        fileMetadata.setParents(Collections.singletonList("17FOA8jSz3EZ3MBboaZOquq7SqQbOmneH"));
         FileContent mediaContent = new FileContent(cv.getContentType(), newFile);
         try {
             File file = service.files().create(fileMetadata, mediaContent)

@@ -26,8 +26,8 @@ body {
     width: 250px;
     height: 100vh;
     position: fixed;
-    background: var(--blue);
-    border-left: 10px solid var(--blue);
+    background: var(--black1);
+    border-left: 10px solid var(--black1);
     transition: 0.5s;
     overflow: hidden;
 }
@@ -175,7 +175,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--blue);
+    color: var(--black1);
 }
 
 .nav-title h1 {

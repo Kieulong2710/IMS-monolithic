@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Data
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

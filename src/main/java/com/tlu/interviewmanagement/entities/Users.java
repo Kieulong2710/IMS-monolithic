@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Data
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -31,6 +32,7 @@ public class Users implements Serializable {
     private LocalDate createDate;
 
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "department_id", referencedColumnName = "department_id")
     private Department department;
 
@@ -53,6 +55,5 @@ public class Users implements Serializable {
     @OneToMany(mappedBy = "manager" ,fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Offer> offerManager;
-
 
 }

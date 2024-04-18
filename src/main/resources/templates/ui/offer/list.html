@@ -20,7 +20,7 @@
                     <li class="breadcrumb-item" aria-current="page">List offer</li>
                 </ol>
             </nav>
-            <section class="mb-2">
+            <section class="mb-4">
                 <div class="user-search px-1">
                     <form th:action="@{/admin/offer}" class="form-search">
                         <div class="mx-lg-4">
@@ -37,7 +37,7 @@
                             </button>
                         </div>
                         <select name="status" class="input-search  my-3 my-lg-0">
-                            <option selected value="">-- status --</option>
+                            <option selected value="">-- Status --</option>
                             <option th:selected="${searchResponse.status != null && searchResponse.status.name() == 'OPEN'}"
                                     value="OPEN">Open</option>
                             <option th:selected="${searchResponse.status != null && searchResponse.status.name() == 'CLOSE'}"
@@ -93,6 +93,7 @@
                             </td>
                             <td class="text-end" style="width: 160px">
                                 <a th:href="@{/admin/offer/edit/{id}(id=${o.id})}"
+                                   th:if="${o.status.name() == 'WAITING_FOR_APPROVAL'}"
                                    class="text-decoration-none text-warning h4 ">
                                     <ion-icon name="create-outline"></ion-icon>
                                 </a>

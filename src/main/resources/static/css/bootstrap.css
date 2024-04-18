@@ -210,7 +210,7 @@ body {
 }
 
 nav ol li {
-    color: var(--blue2);
+    color: var(--black1);
     font-size: calc(1.3rem + .6vw)
 }
 

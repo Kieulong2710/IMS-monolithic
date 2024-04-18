@@ -19,7 +19,7 @@
     <div>
         <nav aria-label="breadcrumb" class="my-1">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item" aria-current="page">Create interview schedule</li>
+                <li class="breadcrumb-item" aria-current="page">Edit interview schedule</li>
             </ol>
         </nav>
         <section class="p-5 user-container">
@@ -48,12 +48,12 @@
                             </div>
                         </div>
                         <div class="form-field mb-4">
-                                <input type="text"
-                                       style="background-color: lightgray;pointer-events: none"
-                                       class="form-input form-control"
-                                       th:value="${interviewSchedule.resultInterviews.get(0).candidate.job.title}"
-                                       readonly
-                                       required/>
+                            <input type="text"
+                                   style="background-color: lightgray;pointer-events: none"
+                                   class="form-input form-control"
+                                   th:value="${interviewSchedule.resultInterviews.get(0).candidate.job.title}"
+                                   readonly
+                                   required/>
 
                             <label class="form-lb form-lb-job" for="jobId">Job</label>
                             <i class="fa-solid fa-angle-down form-icon-select  me-1 float-end"

@@ -18,6 +18,8 @@ import com.tlu.interviewmanagement.web.request.JobSearch;
 import com.tlu.interviewmanagement.web.request.SearchRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,6 +40,7 @@ public class JobServiceImpl implements JobService {
     private final ModelMapper modelMapper;
     private final LevelRepository levelRepository;
     private final SkillJobRepository skillJobRepository;
+    private final Logger  logger = LoggerFactory.getLogger(JobServiceImpl.class);
 
     @Override
     @Transactional
@@ -75,8 +78,14 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void deleteJobById(Long id) {
-        jobRepository.deleteById(id);
+    public int deleteJobById(Long id) {
+        int result = 0;
+        try{
+            jobRepository.deleteById(id);
+        } catch (Exception e) {
+            result =  1;
+        }
+        return result;
     }
 
     @Override
@@ -112,7 +121,8 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<Job> saveAllJobs(MultipartFile fileImport) {
-        return null;
+        List<Job> jobs = getJobs(fileImport);
+        return jobRepository.saveAll(jobs);
     }
 
     @Override
@@ -138,6 +148,7 @@ public class JobServiceImpl implements JobService {
         List<JobImport> jobImports = fileService.importExcel(file, JobImport.class);
         for (JobImport j : jobImports) {
             Job job = modelMapper.map(j, Job.class);
+            logger.info(":::::::::Get jobs:::::::::::::");
             Level level = levelRepository.findAllByName(j.getLevel()).orElseThrow();
             List<Skill> skills = getSkills(j.getSkills());
             List<SkillJob> skillJobs = getSkillJobs(skills, job);

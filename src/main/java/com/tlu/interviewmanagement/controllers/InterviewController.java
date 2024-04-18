@@ -11,6 +11,8 @@ import com.tlu.interviewmanagement.web.request.ResultRequest;
 import com.tlu.interviewmanagement.web.request.SearchRequest;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,8 @@ public class InterviewController {
     private final SearchUtil searchUtil;
     private final CandidateService candidateService;
     private final ResultService resultService;
+    private final NotificationService notificationService;
+    private final Logger logger = LoggerFactory.getLogger(InterviewController.class);
 
     @GetMapping({"/", ""})
     public String getCandidates(@ModelAttribute SearchRequest searchRequest,
@@ -58,25 +62,29 @@ public class InterviewController {
     @PostMapping("/create")
     public String createInterview(
             @ModelAttribute @Validated InterviewRequest interviewRequest,
-                                  BindingResult bindingResult,
-            RedirectAttributes ra,
-            Model model) throws MessagingException {
+            BindingResult bindingResult,
+            RedirectAttributes ra) throws MessagingException {
         if(bindingResult.hasErrors()) {
-            model.addAttribute("interviewRequest", interviewRequest);
-            model.addAttribute("alert", "Create false");
-            model.addAttribute("jobs", jobService.findJobByStatusOpen());
-            model.addAttribute("users", userService.findUserByRoleInterviewAndRecruiter());
-            return "ui/interview/add";
+            ra.addFlashAttribute("interviewRequest", interviewRequest);
+            ra.addFlashAttribute("alert", "Create false");
+            ra.addFlashAttribute("jobs", jobService.findJobByStatusOpen());
+            ra.addFlashAttribute("users", userService.findUserByRoleInterviewAndRecruiter());
+            return "redirect:/admin/interview";
         }
-       InterviewSchedule interviewSchedule = interviewService.saveInterviewSchedule(interviewRequest);
+        logger.info(":::::::::Start to Create Interview:::::::::");
+        InterviewSchedule interviewSchedule = interviewService.saveInterviewSchedule(interviewRequest);
         if(Objects.isNull(interviewSchedule)){
-            model.addAttribute("interviewRequest", interviewRequest);
-            model.addAttribute(ELabelCommon.ALERT.getValue(), "Fail");
-            model.addAttribute(ELabelCommon.MESSAGE.getValue(), "Interview da ton tai");
-            return "ui/interview/add";
+            ra.addFlashAttribute("interviewRequest", interviewRequest);
+            ra.addFlashAttribute(ELabelCommon.ALERT.getValue(), "Fail");
+            ra.addFlashAttribute(ELabelCommon.MESSAGE.getValue(), "Interview da ton tai");
+            logger.info(":::::::::Create Interview Fail:::::::::");
+            return "redirect:/admin/interview";
         }
+//        notificationService.NotificationAddInterviewSchedule(interviewSchedule.getId(),interviewRequest);
         ra.addFlashAttribute(ELabelCommon.ALERT.getValue(), "Success");
-        return "redirect:/admin/interview/create";
+        logger.info(":::::::::Create Interview  Successfull:::::::::");
+        logger.info(":::::::::End to Create Interview:::::::::");
+        return "redirect:/admin/interview";
     }
 
     @GetMapping("/edit/{id}")
@@ -137,10 +145,10 @@ public class InterviewController {
     public String result(@PathVariable Long interviewId,
                          @PathVariable Long resultId,
                          @ModelAttribute ResultRequest resultRequest,
-                         Model model) {
+                         RedirectAttributes ra) {
         resultService.updateResult(resultRequest);
-        model.addAttribute("alert","Update thanh cong");
-        return "redirect:/admin/interview/" + interviewId + "/result/" + resultId;
+        ra.addFlashAttribute("alert","Update thanh cong");
+        return "redirect:/admin/interview/" + interviewId + "/candidates";
     }
 
     @GetMapping("/{id}")

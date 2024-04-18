@@ -4,9 +4,11 @@ import com.tlu.interviewmanagement.entities.*;
 import com.tlu.interviewmanagement.enums.EContractType;
 import com.tlu.interviewmanagement.enums.EStatus;
 import com.tlu.interviewmanagement.repository.*;
+import com.tlu.interviewmanagement.service.EmailService;
 import com.tlu.interviewmanagement.service.OfferService;
 import com.tlu.interviewmanagement.web.request.OfferRequest;
 import com.tlu.interviewmanagement.web.request.SearchRequest;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,7 @@ public class OfferServiceImpl implements OfferService {
     private final ResultInterviewRepository resultInterviewRepository;
     private final DepartmentRepository departmentRepository;
     private final CandidateRepository candidateRepository;
+    private final EmailService emailService;
 
     @Override
     public Page<Offer> findAllOffer(SearchRequest searchRequest) {
@@ -48,7 +51,7 @@ public class OfferServiceImpl implements OfferService {
     @Override
     @Transactional
     public void deleteOffer(Long id) {
-        offerRepository.deleteById(id);
+        offerRepository.deleteByOfferId(id);
     }
 
     @Override
@@ -58,11 +61,12 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     @Transactional
-    public Offer saveOffer(OfferRequest offerRequest) {
+    public Offer saveOffer(OfferRequest offerRequest) throws MessagingException {
         Offer offer = offerRepository.save(getOffer(new Offer(), offerRequest));
         Candidate candidate = offer.getResultInterview().getCandidate();
         candidate.setStatus(EStatus.WAITING_FOR_RESPONSE);
         candidateRepository.save(candidate);
+        emailService.sendMailNotifyOnBoard(List.of("longkh27102001@gmail.com"), "THƯ MỜI THAM GIA LÀM VIỆC TẠI IMS", offer);
         return offer;
     }
 

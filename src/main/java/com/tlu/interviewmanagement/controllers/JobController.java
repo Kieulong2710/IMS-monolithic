@@ -131,7 +131,11 @@ public class JobController {
 
     @GetMapping("/delete/{id}")
     public String deleteJob(@PathVariable Long id, RedirectAttributes ra) {
-        jobService.deleteJobById(id);
+        int result = jobService.deleteJobById(id);
+        if(result > 0) {
+            ra.addFlashAttribute(ELabelCommon.MESSAGE.getValue(), EMessageJob.DELETE_JOB_FAIL.getValue());
+            return "redirect:/admin/job";
+        }
         ra.addFlashAttribute(ELabelCommon.MESSAGE.getValue(), EMessageJob.DELETE_JOB_SUCCESS.getValue());
         return "redirect:/admin/job";
     }

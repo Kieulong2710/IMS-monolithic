@@ -3,7 +3,7 @@
     border-bottom: 1px solid var(--blue3);
     border-right: 1px solid var(--blue3);
     border-left: 1px solid var(--blue3);
-    padding:  0 30px 30px 30px;
+    padding:  0 0 30px;
     border-radius: 30px;
     box-shadow: 0 15px 10px 7px rgba(0, 0, 0, 0.19);
     overflow-x: auto;
@@ -18,7 +18,7 @@
     border-radius: 10px;
 }
 .user-table::-webkit-scrollbar-track{
-   background-color: transparent;
+    background-color: transparent;
 }
 .primaryStatus{
     background-color: #0DC5FDFF;
@@ -62,7 +62,7 @@
 }
 .user-table table thead td {
     font-weight: 600;
-    background-color: var(--blue3);
+    background-color: var(--black2);
     color: var(--white);
 }
 .user-table table thead td:first-child {
@@ -83,7 +83,8 @@
     color: var(--white);
 }
 .user-table  table tr td {
-    padding: 10px;
+    padding: 12px;
+    text-align: center;
 }
 
 .user-search{
@@ -104,23 +105,27 @@
     padding: 8px 20px;
     border-radius: 20px;
     outline: none;
-    border: 1px solid var(--blue3);
+    border: 1px solid var(--black2);
 }
 .select-search{
     padding: 8px 20px;
-    border: 1px solid var(--blue3);
+    border: 1px solid var(--black2);
 }
 .submit-search{
     position: absolute;
     right: 0;
     height: 100%;
-    background-color: var(--blue3);
+    background-color: var(--black2);
     border: none;
-    border-left: 1px solid var(--blue3);
+    border-left: 1px solid var(--black2);
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-
 }
+
+.submit-search:hover {
+    opacity: 0.8;
+}
+
 .add{
     display: flex;
     justify-content: end;

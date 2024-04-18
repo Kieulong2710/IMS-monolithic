@@ -15,7 +15,7 @@ public interface JobService {
     Page<Job> findAllJob(SearchRequest searchRequest);
     Page<Job> findAllJob(JobSearch jobSearch);
 
-    void deleteJobById(Long id);
+    int deleteJobById(Long id);
 
     Job findJobById(Long id);
     List<Job> findJobByStatusOpen();

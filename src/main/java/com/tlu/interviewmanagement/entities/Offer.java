@@ -42,8 +42,6 @@ public class Offer implements Serializable {
     @JoinColumn(name = "result_interview_id")
     private ResultInterview resultInterview;
 
-
-
     @ManyToOne
     @JoinColumn(name = "recruiter_id")
     private Users recruiter;

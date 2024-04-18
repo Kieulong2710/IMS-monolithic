@@ -14,6 +14,10 @@ public interface ResultInterviewRepository extends JpaRepository<ResultInterview
 
     Optional<ResultInterview> findByCandidate_Id(Long id);
     Optional<ResultInterview> findByInterviewSchedule_Id(Long id);
+
+    @Query("SELECT ri " +
+            "FROM ResultInterview ri " +
+            "WHERE ri.result = ?1 AND ri.candidate.status = 'PASSED_INTERVIEW'")
     List<ResultInterview> findByResult(EStatus status);
     @Modifying
     @Query("DELETE ResultInterview where interviewSchedule.id = ?1")
@@ -24,4 +28,8 @@ public interface ResultInterviewRepository extends JpaRepository<ResultInterview
             "JOIN job j on c.job_id = j.id " +
             "where j.id = :jobId ", nativeQuery = true)
     long countAllCandidate(@Param("jobId") Long jobId);
+
+    @Modifying
+    @Query("DELETE ResultInterview where candidate.id = ?1")
+    void deleteByCandidateId(Long id);
 }

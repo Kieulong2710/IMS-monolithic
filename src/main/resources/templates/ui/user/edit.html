@@ -114,11 +114,11 @@
                     <div class="user-form-right">
                         <div class="form-field mb-4">
                             <input  type="text"
-                                   style="background-color: lightgray;pointer-events: none"
-                                   class="form-input form-control"
-                                   th:value="${user.account.email}"
-                                   readonly
-                                   required/>
+                                    style="background-color: lightgray;pointer-events: none"
+                                    class="form-input form-control"
+                                    th:value="${user.account.email}"
+                                    readonly
+                                    required/>
                             <label class="form-lb"> Email</label>
                             <ion-icon class="form-icon" name="mail-outline"></ion-icon>
                             <input type="hidden" th:value="${user.account.email}" name="email">
@@ -177,7 +177,7 @@
                 </div>
                 <div class="d-flex justify-content-center mt-4">
                     <input type="submit" value="Save" class="btn btn-custom btn-outline-primary me-5">
-                    <a th:href="@{/admin/user}" role="button"
+                    <a th:href="@{/admin/user/}" role="button"
                        class="btn btn-custom btn-outline-secondary">
                         Back
                     </a>

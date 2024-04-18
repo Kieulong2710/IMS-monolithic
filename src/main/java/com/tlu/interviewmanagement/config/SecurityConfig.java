@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         a -> a
-                                .requestMatchers("/admin/offer/**", "/offer").hasAnyRole("MANAGER", "RECRUITER")
+                                .requestMatchers("/admin/offer/**", "/offer").hasAnyRole("ADMIN", "MANAGER", "RECRUITER")
                                 .requestMatchers("/admin/**", "/admin").hasAnyRole("ADMIN", "RECRUITER", "INTERVIEW", "MANAGER")
                                 .anyRequest().permitAll())
                 .oauth2Login(login -> login
@@ -44,7 +44,6 @@ public class SecurityConfig {
                         .permitAll())
                 .exceptionHandling(err -> err.accessDeniedPage("/403"))
                 .addFilterAfter(sessionFilterCustom, BasicAuthenticationFilter.class);
-//        config tam thời
         return http.build();
     }
 
