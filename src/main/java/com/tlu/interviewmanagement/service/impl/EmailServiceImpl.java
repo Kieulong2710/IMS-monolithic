@@ -31,16 +31,6 @@ public class EmailServiceImpl implements EmailService {
     private String sender;
 
     @Override
-    public void sendMailSimple(EmailDetail emailDetail) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(sender);
-        message.setTo(emailDetail.getRecipient());
-        message.setSubject(emailDetail.getSubject());
-        message.setText(emailDetail.getMsgBody());
-        javaMailSender.send(message);
-    }
-
-    @Override
     public void sendMailHtml(EmailDetail emailDetail) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);

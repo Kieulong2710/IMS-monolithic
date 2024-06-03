@@ -9,7 +9,6 @@ import jakarta.mail.MessagingException;
 import java.util.Collection;
 
 public interface EmailService {
-    void sendMailSimple(EmailDetail emailDetail) throws MessagingException;
     void sendMailHtml(EmailDetail emailDetail   ) throws MessagingException;
     void sendMailNotificationInterviewSchedule(Collection<String> email,String subject,InterviewSchedule interviewSchedule) throws MessagingException;
     void sendMailCancelInterviewSchedule(Collection<String> email,String subject,InterviewSchedule interviewSchedule) throws MessagingException;

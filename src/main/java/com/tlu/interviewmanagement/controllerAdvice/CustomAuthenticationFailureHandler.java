@@ -10,7 +10,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 
 import java.io.IOException;
 
-
 public class CustomAuthenticationFailureHandler
         implements AuthenticationFailureHandler {
     @Override

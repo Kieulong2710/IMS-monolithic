@@ -62,7 +62,6 @@ public class GoogleApiUtil {
         File fileMetadata = new File();
         fileMetadata.setName(cv.getOriginalFilename());
         java.io.File newFile = convert(cv);
-//        fileMetadata.setParents(Collections.singletonList("1-1o2KnbKGTsCXVzzqRo1J7He3sLV24TW"));
         fileMetadata.setParents(Collections.singletonList("17FOA8jSz3EZ3MBboaZOquq7SqQbOmneH"));
         FileContent mediaContent = new FileContent(cv.getContentType(), newFile);
         try {
